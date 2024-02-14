@@ -121,7 +121,7 @@ User의 생성자를 만들어줄때 다음과 같이 사용될 수 있습니다
 public User(String accountId, String password, Authority authority) {
     super(
             accountId,
-            Collections.singletonList(new SimpleGrantedAuthority(authority))
+            Collections.singletonList(new SimpleGrantedAuthority(authority.name()))
     );
     this.accountId = accountId;
     this.password = password;
