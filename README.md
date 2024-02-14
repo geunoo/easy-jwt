@@ -1,5 +1,5 @@
 # easy-jwt
-
+[![](https://jitpack.io/v/geunoo/easy-jwt.svg)](https://jitpack.io/#geunoo/easy-jwt)
 >매번 jwt 코드 짜기 귀찮아서 만드는 jwt 세팅해주는 라이브러리
 
 이 라이브러리를 사용하면 spring boot에서 jwt를 이용한 인증/인가를 할 수 있습니다.   
