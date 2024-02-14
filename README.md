@@ -59,13 +59,29 @@ easy-jwt.refresh-exp= # refresh token 만료시간
 easy-jwt.secret= # token secret
 ```
 ### User
-인증에 사용할 유저 객체를 JwtUser에 상속시켜야합니다.   
+인증에 사용할 유저 객체를 JwtUser에 상속시켜야합니다.
+그리고 아래와 같이 getter를 구현해야합니다.
 아래는 JPA를 이용했을때의 예제입니다.
 ```java
 @Getter
 @NoArgsConstructor
 @Entity
-public class User extends JwtUser { //...// }
+public class User extends JwtUser { 
+    private String accountId;
+    private Authority authority;
+
+    //...// 
+    
+    @Override
+    public String getUsername() {
+        return getAccountId();
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return Collections.singleton(new SimpleGrantedAuthority(getAuthority().name()));
+    }
+}
 ```
 ### SecurityConfig
 JwtFilter를 적용해야합니다.
