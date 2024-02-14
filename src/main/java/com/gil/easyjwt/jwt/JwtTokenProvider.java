@@ -28,11 +28,30 @@ public class JwtTokenProvider {
     private static final String PREFIX = "Bearer ";
     private static final String HEADER = "Authorization";
 
-    public LocalDateTime getExpiredAt() {
-        return LocalDateTime.now().plusSeconds(jwtProperties.getAccessExp());
+    public LocalDateTime getExpiredAt(TokenType type) {
+        return switch (type) {
+            case ACCESS -> LocalDateTime.now().plusSeconds(jwtProperties.getAccessExp());
+            case REFRESH -> LocalDateTime.now().plusSeconds(jwtProperties.getRefreshExp());
+        };
     }
 
-    public String generateToken(String subject, Integer exp, TokenType type, Map<String, String> claims) {
+    public String generateAccessToken(String subject, Map<String, String> claims) {
+        return generateToken(subject, jwtProperties.getAccessExp(), TokenType.ACCESS, claims);
+    }
+
+    public String generateAccessToken(String subject) {
+        return generateToken(subject, jwtProperties.getAccessExp(), TokenType.ACCESS, null);
+    }
+
+    public String generateRefreshToken(String subject, Map<String, String> claims) {
+        return generateToken(subject, jwtProperties.getRefreshExp(), TokenType.REFRESH, claims);
+    }
+
+    public String generateRefreshToken(String subject) {
+        return generateToken(subject, jwtProperties.getRefreshExp(), TokenType.REFRESH, null);
+    }
+
+    private String generateToken(String subject, Integer exp, TokenType type, Map<String, String> claims) {
         return Jwts.builder()
                 .signWith(getSecretKey())
                 .subject(subject)
