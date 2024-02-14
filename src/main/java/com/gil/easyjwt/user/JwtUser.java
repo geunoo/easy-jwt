@@ -6,7 +6,6 @@ import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;
 
-@Getter
 @NoArgsConstructor
 public abstract class JwtUser {
 
@@ -23,4 +22,7 @@ public abstract class JwtUser {
         this.username = username;
         this.authorities = authorities;
     }
+
+    public abstract String getUsername();
+    public abstract Collection<? extends GrantedAuthority> getAuthorities();
 }
